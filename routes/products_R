@@ -111,4 +111,17 @@ router.patch('/:id',upload.single('myFile'),(req,res)=>{
     res.json({message:"ok"})
 })
 
+router.patch('/rate/:id', (req, res) => {
+    let id = Number(req.params.id);
+    let product = products[id];
+    
+    if (!product) {
+        return res.status(404).json({ message: " הפרויקט לא קיים" });
+    }
+
+    product.rating += 1; 
+    res.json({ message: "Rating updated successfully", newRating: product.rating });
+});
+
+
 module.exports = router; 
