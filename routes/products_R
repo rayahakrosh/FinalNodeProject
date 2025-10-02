@@ -53,3 +53,25 @@ router.get('/:id',(req,res)=>{
     if(!product){ return res.status(404).json({message:"לא קיים"}) }
     res.json(product);
 })
+
+router.post('/',upload.single('myFile'),(req,res)=>{
+    const validationError = validateProduct(req);
+    
+    if (validationError) {
+        if (req.file) { fs.unlinkSync(path.join('images', req.file.filename)); } 
+        return res.status(400).json({ message: validationError });
+    }
+    let id = nextID++;
+    let product = {
+        id, 
+        name: req.body.name, 
+        description: req.body.description,
+        price: parseFloat(req.body.price), 
+        myFileName: req.file ? req.file.filename : null, 
+    };
+    products[id]=product;
+    res.json({message:"ok", id: id}) 
+})
+
+
+module.exports = router; 
