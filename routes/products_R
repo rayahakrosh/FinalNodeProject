@@ -43,35 +43,3 @@ function validateProduct(req, isPatch = false) {
 
     return null; 
 }
-router.get('/',(req,res)=>{
-    // إرجاع مصفوفة من قيم الكائن
-    res.json(Object.values(products).filter(p => p !== null))
-})
-
-router.get('/:id',(req,res)=>{
-    let id = Number(req.params.id);
-    let product = products[id];
-    if(!product){ return res.status(404).json({message:"לא קיים"}) }
-    res.json(product);
-})
-
-router.post('/',upload.single('myFile'),(req,res)=>{
-    const validationError = validateProduct(req);
-    
-    if (validationError) {
-        if (req.file) { fs.unlinkSync(path.join('images', req.file.filename)); } 
-        return res.status(400).json({ message: validationError });
-    }
-
-    let id = nextID++;
-    let product = {
-        id, 
-        name: req.body.name, 
-        description: req.body.description,
-        price: parseFloat(req.body.price), 
-        myFileName: req.file ? req.file.filename : null, 
-        rating: 0
-    };
-    products[id]=product;
-    res.json({message:"ok", id: id}) 
-})
