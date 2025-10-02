@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 });
 
 // ربط مسارات الـ API بالـ Router
-app.use('/p', require('./routes/products_R'));
+app.use('/p', require('./routes/products_R.js'));
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
