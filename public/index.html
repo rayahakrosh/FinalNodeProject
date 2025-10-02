@@ -1,29 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../public/style.css">
+    <title>מערכת דירוג פרויקטים</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
-<body>
-    <h1 id="h1"></h1>
+<body dir="rtl">
+    <div id="messageBox"></div>
+
+    <h1 id="h1">הוספת פרויקט חדש</h1>
     <hr>
-    <input id="id" type="hidden">
-    <label for="name">Name:</label>
-    <input id="name">  
-    <br> 
-    <label for="price">Price:</label>
-    <input id="price">  
-    <br>
-    <label for="myFile">Image:</label>
-    <input id= "myFile" type="file">
-    <br>
-    <img id="myImage" src="" alt="Image">
-    <br>
-    <button onclick="addOrEdit()">Send</button>
+    <form id="productForm"> 
+        <input id="id" type="hidden" name="id"> 
+        
+        <label for="name">שם:</label>
+        <input id="name" name="name" required> 
+        <br>
+        
+        <label for="description">תיאור (חובה):</label> 
+        <textarea id="description" name="description" rows="3" placeholder="תיאור הפרויקט..." required></textarea>
+        <br>
+        
+        <label for="price">מחיר:</label>
+        <input id="price" name="price" type="number" step="0.01" required>  
+        <br>
+        
+        <label for="myFile">תמונה:</label>
+        <input id="myFile" name="myFile" type="file" accept="image/*">
+        
+        <img id="myImage" src="" alt="תמונה" class="hidden-img">
+        <br>
+        
+        <button type="submit">שלח</button>
+        <button type="button" onclick="resetForm()">בטל/הוסף חדש</button>
+    </form>
     <hr>
-    <div id="main"></div>
-    <script src="../public/script.js"></script>
+    
+    <h2>רשימת פרויקטים (לחיצה על כרטיס לעריכה)</h2>
+    <div id="main" class="grid-container"></div>
+    <script src="script.js"></script> 
 </body>
 </html>
