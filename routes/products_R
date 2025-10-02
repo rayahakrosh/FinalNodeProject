@@ -86,5 +86,29 @@ router.delete('/:id',(req,res)=>{
     res.json({message:"ok"})
 })
 
+router.patch('/:id',upload.single('myFile'),(req,res)=>{
+    let id = Number(req.params.id);
+    let product = products[id];
+    if(!product){ return res.status(404).json({message:" לא קיים "}) } 
+    'isPatch=true'
+    const validationError = validateProduct(req, true);
+    if (validationError) {
+        if (req.file) { fs.unlinkSync(path.join('images', req.file.filename)); }
+        return res.status(400).json({ message: validationError });
+    }
+
+    let newFileName = req.file ? req.file.filename : null;
+    if(newFileName){
+        if(product.myFileName && fs.existsSync(path.join('images',product.myFileName))) { 
+            fs.unlinkSync(path.join('images',product.myFileName)) 
+        }
+        product.myFileName=newFileName; 
+    }
+    product.name = req.body.name;
+    product.description = req.body.description;
+    product.price = parseFloat(req.body.price); 
+    
+    res.json({message:"ok"})
+})
 
 module.exports = router; 
