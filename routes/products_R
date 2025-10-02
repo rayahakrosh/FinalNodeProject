@@ -1,0 +1,45 @@
+const express = require('express');
+const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+let products = {}; 
+let nextID = 1;
+
+if(!fs.existsSync('images')){
+    fs.mkdirSync('images');
+}
+
+const storage = multer.diskStorage({
+    destination: (req,file,cb)=>{
+        cb(null, 'images/');
+    },
+    filename: (req,file,cb)=>{
+        let id = req.params.id ? req.params.id : nextID;
+        let finalFilename = `${id}${path.extname(file.originalname)}`;
+        cb(null,finalFilename);
+    }
+});
+const upload = multer({storage: storage});
+
+
+function validateProduct(req, isPatch = false) {
+    const { name, description, price } = req.body;
+
+    if (!name || name.length < 2) { return "השם נדרש וחייב להיות לפחות שתי אותיות"; }
+
+    if (!description || description.length < 10) { return "התיאור נדרש וחייב להיות לפחות 10 תווים."; }
+    
+    const priceValue = parseFloat(price);
+    if (isNaN(priceValue) || priceValue <= 0) { return "המחיר"; }
+
+
+    if (!isPatch && !req.file) { 
+        if (req.method === 'POST' && !req.file) {
+            return "יש להעלות תמונה עבור הפרויקט החדש";
+        }
+    }
+
+    return null; 
+}
