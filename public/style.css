@@ -1,0 +1,28 @@
+body{
+    background-color: deeppink;
+}
+#main{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100px;
+    height: 200px;
+    border: solid paleturquoise 1px;
+    border-radius: 25px;
+    text-align: center;
+    background-color: cornsilk;
+}
+.card img{
+    width: 90%;
+    height: 50%;
+    margin: 10px;
+}
+#myImage{
+    width: 50px;
+    height: 50px;
+}
